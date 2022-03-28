@@ -1,0 +1,43 @@
+plugins {
+  id 'org.springframework.boot' version "${springVersion}"
+  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+  id 'java'
+}
+
+ext {
+    set('keycloak', '11.0.2')
+
+    set('infinispan', '10.1.8.Final')
+    set('resteasy', '3.12.1.Final')
+}
+
+repositories { mavenCentral() }
+
+java {
+    sourceCompatibility = '13'
+    targetCompatibility = '13'
+}
+
+group = 'com.baeldung'
+// name = 'authorization-server'
+version = '0.1.0-SNAPSHOT'
+
+configurations { compileOnly { extendsFrom annotationProcessor } }
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2'
+
+    implementation group: 'org.jboss.resteasy', name: 'resteasy-jackson2-provider', version: "${resteasy}"
+    implementation(group: 'org.keycloak', name: 'keycloak-dependencies-server-all', version: "${keycloak}") {
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'log4j', module: 'log4j'
+    }
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.rest-assured:rest-assured'
+}

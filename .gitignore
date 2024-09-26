@@ -7,9 +7,11 @@
 .classpath
 .project
 .springBeans
+build/
 target/
 .factorypath
 **/.sts4-cache/*
+.gradle
 
 *.iml
 .idea
